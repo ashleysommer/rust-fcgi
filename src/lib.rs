@@ -155,7 +155,7 @@ impl Request for DefaultRequest {
             if param.is_null() {
                 return None;
             }
-            let result_cstr = ffi::CString::from_ptr(param);
+            let result_cstr = ffi::CStr::from_ptr(param);
             let result_str = result_cstr.to_str().unwrap();
             return Some(String::from(result_str));
         }
@@ -182,7 +182,7 @@ impl Request for DefaultRequest {
             let pdst = buffer.as_mut_ptr();
             let byte_count = capi::FCGX_GetStr(pdst, n, self.raw_request.in_stream);
             buffer.set_len(byte_count as usize);
-            let result_cstr = ffi::CString::from_ptr(pdst);
+            let result_cstr = ffi::CStr::from_ptr(pdst);
             let result_str = result_cstr.to_str().unwrap();
             return (String::from(result_str), byte_count);
         }
